@@ -47,7 +47,8 @@ public class TodoServiceTest {
 	@After
 	public void tearDown(){
 		LOG.debug("tearDown...");
-		Mockito.verifyNoMoreInteractions(this.todoRepository);
+//		Mockito.verifyNoMoreInteractions(this.todoRepository);
+//		Mockito.verifyNoMoreInteractions(mocks);
 		
 	}
 	
@@ -73,16 +74,32 @@ public class TodoServiceTest {
 		//todo repo harus 1 kali dipanggil , gaboleh lebih  
 		BDDMockito.then(this.todoRepository).should(BDDMockito.times(1)).getAll();
 		
-		this.todoService.getAll();
-		
-		
-		
+		this.todoService.getAll();		
 	}
 	
 	@Test
 	public void saveTodoTest(){
 		LOG.debug("saveTodoTest..");
+		//given
+//		List<Todo> todoList = new ArrayList<Todo>();
+//		boolean todoSave;
+//		todoSave = new TodoService().saveTodo("one", TodoPriority.HIGH);
+//		BDDMockito.given(this.todoService.saveTodo("Adin", TodoPriority.HIGH)).willReturn(true);
+		Todo todo = new Todo("Adin",TodoPriority.HIGH);
+		BDDMockito.given(this.todoRepository.store(todo)).willReturn(true);
 		
+		//when
+		Boolean testResult = this.todoService.saveTodo("Adin", TodoPriority.HIGH);
+		
+		LOG.debug("Hasil : " + testResult);
+		//then
+		//assert
+		Assert.assertThat(testResult, Matchers.equalTo(true));
+		//untuk ngecek assert sama gunakan : assertThat(.... ==, matchers ...)
+				
+		//verify
+		//todo repo harus 1 kali dipanggil , gaboleh lebih  
+		BDDMockito.then(this.todoRepository).should(BDDMockito.times(1)).store(todo);
 		this.todoService.saveTodo(null, null);
 	}
 }
