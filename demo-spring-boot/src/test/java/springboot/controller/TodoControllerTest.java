@@ -50,10 +50,10 @@ public class TodoControllerTest {
 	public void insert() {
 		when(todoService.saveTodo(NAME, PRIORITY)).thenReturn(true);
 
-		boolean nama = given().contentType("application/json").when().body(TODO).post("/todos").then().statusCode(200)
+		boolean status = given().contentType("application/json").when().body(TODO).post("/todos").then().statusCode(200)
 				.extract().path("value");
 		
-		Assert.assertTrue(nama);
+		Assert.assertTrue(status);
 		verify(todoService).saveTodo(NAME, PRIORITY);
 	}
 
