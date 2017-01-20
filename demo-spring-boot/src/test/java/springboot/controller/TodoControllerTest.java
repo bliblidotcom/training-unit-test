@@ -1,6 +1,8 @@
 package springboot.controller;
 
+import org.hamcrest.Matchers;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,6 +16,7 @@ import springboot.service.TodoService;
 import java.util.Arrays;
 
 import static com.jayway.restassured.RestAssured.given;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.*;
 
@@ -25,33 +28,38 @@ import static org.mockito.Mockito.*;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class TodoControllerTest {
 
-  @MockBean
-  private TodoService todoService;
+	@MockBean
+	private TodoService todoService;
 
-  private static final String NAME = "Todo1";
-  private static final TodoPriority PRIORITY = TodoPriority.HIGH;
+	private static final String NAME = "Todo1";
+	private static final TodoPriority PRIORITY = TodoPriority.HIGH;
 
-  private static final String TODO = String.format("{\"name\":\"%s\",\"priority\":\"%s\"}", NAME, PRIORITY);
+	private static final String TODO = String.format("{\"name\":\"%s\",\"priority\":\"%s\"}", NAME, PRIORITY);
 
-  @Test
-  public void all() {
-    when(todoService.getAll()).thenReturn(Arrays.asList(new Todo(NAME, PRIORITY)));
+	@Test
+	public void all() {
+		when(todoService.getAll()).thenReturn(Arrays.asList(new Todo(NAME, PRIORITY)));
 
-    given()
-      .contentType("application/json")
-      .when()
-      .get("/todos")
-      .then()
-      .body(containsString("value"))
-      .body(containsString(NAME))
-      .statusCode(200);
+		given().contentType("application/json").when().get("/todos").then().body(containsString("value"))
+				.body(containsString(NAME)).statusCode(200);
 
-    verify(todoService).getAll();
-  }
+		verify(todoService).getAll();
+	}
 
-  @After
-  public void tearDown() {
-    verifyNoMoreInteractions(this.todoService);
-  }
+	@Test
+	public void insert() {
+		when(todoService.saveTodo(NAME, PRIORITY)).thenReturn(true);
+
+		boolean nama = given().contentType("application/json").when().body(TODO).post("/todos").then().statusCode(200)
+				.extract().path("value");
+		
+		Assert.assertTrue(nama);
+		verify(todoService).saveTodo(NAME, PRIORITY);
+	}
+
+	@After
+	public void tearDown() {
+		verifyNoMoreInteractions(this.todoService);
+	}
 
 }
