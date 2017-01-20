@@ -9,5 +9,6 @@ import java.util.List;
  */
 public interface TodoRepositoryCustom {
 
+    public boolean store(Todo todo);
     public List<Todo> getAll();
 }

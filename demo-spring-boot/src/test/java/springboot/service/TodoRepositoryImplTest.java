@@ -25,6 +25,8 @@ import springboot.repository.TodoRepository;
 import springboot.repository.TodoRepositoryImpl;
 import sun.rmi.runtime.Log;
 
+
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +43,9 @@ public class TodoRepositoryImplTest {
     private static final Logger LOG = LoggerFactory.getLogger(TodoRepository.class);
 
     @Autowired
+    EntityManager entityManager;
+
+    @Autowired
     private TodoRepository todoRepository ;
 
 
@@ -55,7 +60,17 @@ public class TodoRepositoryImplTest {
     }
 
     @Test
-    public void store(){}
+    public void store() {
+        LOG.debug("testStore...");
+        Todo todoOne = new Todo("Dito", TodoPriority.HIGH);
+        boolean sukses = todoRepository.store(todoOne);
+
+        Todo inputTodo =
+                (Todo) this.entityManager.createNativeQuery("SELECT id,name,priority from todo", Todo.class).getResultList().get(0);
+
+        Assert.assertEquals(sukses, true);
+        Assert.assertEquals(todoOne, inputTodo);
+    }
 
     @Test
     public void getAll() throws Exception{
