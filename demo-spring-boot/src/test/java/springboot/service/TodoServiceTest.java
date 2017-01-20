@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TodoServiceTest {
-
     // The System Under Test (SUT)
     @InjectMocks
     private TodoService todoService;
@@ -29,17 +28,20 @@ public class TodoServiceTest {
 
     @Before
     public void setUp() {
+        LOG.debug("setup");
         MockitoAnnotations.initMocks(this);
     }
 
     @After
     public void tearDown() {
+        LOG.debug("teardown");
         // Verify
       BDDMockito.then(this.todoRepository).shouldHaveNoMoreInteractions();
     }
 
     @Test
     public void getAllTest() {
+        LOG.debug("getAllTest");
         // Given
         List<Todo> todoList = new ArrayList<Todo>();
         todoList.add(new Todo("Test a todo content.", TodoPriority.HIGH));
@@ -59,19 +61,20 @@ public class TodoServiceTest {
 
     @Test
     public void saveTodoTest() {
+        LOG.debug("save to Do");
         // Given
         Todo newTodo = new Todo("Test insert new todo item.", TodoPriority.LOW);
-        BDDMockito.given(this.todoRepository.store(newTodo)).willReturn(true);
+        BDDMockito.given(this.todoRepository.save(newTodo)).willReturn(newTodo);
 
         // When
-        boolean success = todoService.saveTodo(newTodo.getName(), newTodo.getPriority());
+        Todo success = todoService.saveTodo(newTodo.getName(), newTodo.getPriority());
 
         // Then
-        Assert.assertTrue(success);
+        Assert.assertThat(newTodo == success, org.hamcrest.Matchers.equalTo(true));
 
         // Verify
         Mockito.verify(this.todoRepository, Mockito.times(1))
-                .store(newTodo);
+                .save(newTodo);
     }
 
 }
