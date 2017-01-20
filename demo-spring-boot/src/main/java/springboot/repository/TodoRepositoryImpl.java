@@ -33,8 +33,10 @@ public class TodoRepositoryImpl implements TodoRepositoryCustom {
     public boolean store(Todo todo) {
         LOG.debug("store...");
         String query="INSERT INTO Todo (id,name,priority) VALUES(?,?,?)";
-        Integer t=this.em.createNativeQuery(query).setParameter(1, todo.getId()).setParameter(2, todo.getName()).setParameter(3, todo.getPriority().ordinal()).executeUpdate();
-        
+        Integer t=this.em.createNativeQuery(query).setParameter(1, todo.getId())
+                .setParameter(2, todo.getName()).setParameter(3, todo.getPriority().ordinal())
+                .executeUpdate();
+        LOG.debug("ID DATA : {}",t);
         return true;
     }
 
