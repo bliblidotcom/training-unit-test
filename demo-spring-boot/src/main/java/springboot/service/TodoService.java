@@ -21,18 +21,24 @@ public class TodoService {
   @Autowired
   private TodoRepository todoRepository;
 
-  public boolean saveTodo(String name, TodoPriority priority) {
+  public Todo saveTodo(String name, TodoPriority priority) {
     LOG.debug("saveTodo...");
     Todo todo = new Todo(name, priority);
 
-    return todoRepository.store(todo);
+    return todoRepository.save(todo);
   }
 
   public List<Todo> getAll() {
     LOG.debug("getAll...");
-    List<Todo> result = todoRepository.getAll();
+    List<Todo> result = todoRepository.findAll();
     LOG.debug("result:{}", result);
     return result;
   }
+
+//  List<Todo> findAll();
+//
+//  Todo findById(String id);
+//
+//  Todo create(Todo todo) throws Exception;
 
 }
