@@ -49,4 +49,11 @@ public class Todo {
     result = 31 * result + priority.hashCode();
     return result;
   }
+
+@Override
+public String toString() {
+	return "Todo [name=" + name + ", priority=" + priority + "]";
+}
+  
+  
 }
