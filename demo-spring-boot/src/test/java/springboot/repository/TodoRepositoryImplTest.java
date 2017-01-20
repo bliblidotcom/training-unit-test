@@ -51,5 +51,20 @@ public class TodoRepositoryImplTest {
 
         //assert
         Assert.assertEquals(result, mockTodoList);
+
+
+    }
+
+    @Test
+    public void storeTest() {
+        //given
+        Todo mockTodo = new Todo("Mock Todo", TodoPriority.LOW);
+
+        //when
+        boolean result = todoRepository.store(mockTodo);
+
+        //assert
+        Assert.assertEquals(true, result);
+        Assert.assertNotNull(todoRepository.findByName(mockTodo.getName()));
     }
 }
