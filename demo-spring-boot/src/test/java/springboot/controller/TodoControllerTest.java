@@ -31,27 +31,31 @@ public class TodoControllerTest {
 
 	@MockBean
 	private TodoService todoService;
+  
+  @LocalServerPort
+  private int serverPort;
 
-	private static final String NAME = "Todo1";
-	private static final TodoPriority PRIORITY = TodoPriority.HIGH;
-
+  private static final String NAME = "Todo1";
+  private static final TodoPriority PRIORITY = TodoPriority.HIGH;
 
 	private static final String TODO = String.format("{\"name\":\"%s\",\"priority\":\"%s\"}", NAME, PRIORITY);
 
-	@LocalServerPort
-	private int serverPort;
+
 	@Test
 	public void all() {
 		when(todoService.getAll()).thenReturn(Arrays.asList(new Todo(NAME, PRIORITY)));
 
-		given().contentType("application/json")
-		.port(serverPort)
-		.when()
-		.get("/todos")
-		.then()
-		.body(containsString("value"))		
-		.body(containsString(NAME))
-		.statusCode(200);
+
+    given()
+      .contentType("application/json")
+      .when()
+      .port(serverPort)
+      .get("/todos")
+      .then()
+      .body(containsString("value"))
+      .body(containsString(NAME))
+      .statusCode(200);
+
 
 		verify(todoService).getAll();
 	}
