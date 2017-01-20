@@ -5,7 +5,6 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -49,7 +48,7 @@ public class TodoServiceTest {
         List<Todo> todoList = new ArrayList<Todo>();
         todoList.add(new Todo("Test a todo content.", TodoPriority.HIGH));
         todoList.add(new Todo("Another task we must do later.", TodoPriority.LOW));
-        BDDMockito.given(this.todoRepository.findAll()).willReturn(todoList);
+        Mockito.when(this.todoRepository.findAll()).thenReturn(todoList);
 
         // When
         List<Todo> result = todoService.getAll();
@@ -66,7 +65,7 @@ public class TodoServiceTest {
     public void saveTodoTest() {
         // Given
         Todo newTodo = new Todo("Test insert new todo item.", TodoPriority.LOW);
-        BDDMockito.given(this.todoRepository.save(newTodo)).willReturn(newTodo);
+        Mockito.when(this.todoRepository.save(newTodo)).thenReturn(newTodo);
 
         // When
         boolean success = todoService.saveTodo(newTodo.getName(), newTodo.getPriority());
