@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import springboot.model.Todo;
 import springboot.model.constants.TodoPriority;
-import springboot.repository.TodoRepository;
+import springboot.repository.TodoRepositoryImpl;
 
 import java.util.List;
 
@@ -19,18 +19,18 @@ public class TodoService {
   private static final Logger LOG = LoggerFactory.getLogger(TodoService.class);
 
   @Autowired
-  private TodoRepository todoRepository;
+  private TodoRepositoryImpl todoRepositoryImpl;
 
-  public boolean saveTodo(String name, TodoPriority priority) {
+  public Todo saveTodo(Long id,String name, TodoPriority priority) {
     LOG.debug("saveTodo...");
-    Todo todo = new Todo(name, priority);
+    Todo todo = new Todo(id,name, priority);
 
-    return todoRepository.store(todo);
+    return todoRepositoryImpl.store(todo);
   }
 
   public List<Todo> getAll() {
     LOG.debug("getAll...");
-    List<Todo> result = todoRepository.getAll();
+    List<Todo> result = todoRepositoryImpl.getAll();
     LOG.debug("result:{}", result);
     return result;
   }

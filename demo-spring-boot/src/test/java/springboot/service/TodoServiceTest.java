@@ -1,19 +1,22 @@
 package springboot.service;
 
+import org.hamcrest.*;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.*;
 
+
+import org.mockito.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import springboot.model.Todo;
 import springboot.model.constants.TodoPriority;
-import springboot.repository.TodoRepository;
+import springboot.repository.TodoRepositoryImpl;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class TodoServiceTest {
 
@@ -23,7 +26,7 @@ public class TodoServiceTest {
 
     // Dependency
     @Mock
-    private TodoRepository todoRepository;
+    private TodoRepositoryImpl todoRepositoryImpl;
 
     private static final Logger LOG = LoggerFactory.getLogger(TodoServiceTest.class);
 
@@ -35,16 +38,16 @@ public class TodoServiceTest {
     @After
     public void tearDown() {
         // Verify
-      BDDMockito.then(this.todoRepository).shouldHaveNoMoreInteractions();
+      BDDMockito.then(this.todoRepositoryImpl).shouldHaveNoMoreInteractions();
     }
 
     @Test
     public void getAllTest() {
         // Given
         List<Todo> todoList = new ArrayList<Todo>();
-        todoList.add(new Todo("Test a todo content.", TodoPriority.HIGH));
-        todoList.add(new Todo("Another task we must do later.", TodoPriority.LOW));
-        BDDMockito.given(this.todoRepository.getAll()).willReturn(todoList);
+        todoList.add(new Todo(1L,"ryan", TodoPriority.HIGH));
+       // todoList.add(new Todo(2L,"Another task we must do later.", TodoPriority.LOW));
+        BDDMockito.given(this.todoRepositoryImpl.getAll()).willReturn(todoList);
 
         // When
         List<Todo> result = todoService.getAll();
@@ -53,24 +56,24 @@ public class TodoServiceTest {
         Assert.assertEquals(todoList, result);
 
         // Verify
-        Mockito.verify(this.todoRepository, Mockito.times(1))
+        Mockito.verify(this.todoRepositoryImpl, Mockito.times(1))
                 .getAll();
     }
 
     @Test
     public void saveTodoTest() {
         // Given
-        Todo newTodo = new Todo("Test insert new todo item.", TodoPriority.LOW);
-        BDDMockito.given(this.todoRepository.store(newTodo)).willReturn(true);
+        Todo newTodo = new Todo(1L,"ryan", TodoPriority.HIGH);
+        BDDMockito.given(this.todoRepositoryImpl.store(newTodo)).willReturn(newTodo);
 
         // When
-        boolean success = todoService.saveTodo(newTodo.getName(), newTodo.getPriority());
+        Todo success = todoService.saveTodo(newTodo.getId(),newTodo.getName(), newTodo.getPriority());
 
         // Then
-        Assert.assertTrue(success);
+        Assert.assertThat(success, org.hamcrest.Matchers.equalTo(newTodo));
 
         // Verify
-        Mockito.verify(this.todoRepository, Mockito.times(1))
+        Mockito.verify(this.todoRepositoryImpl, Mockito.times(1))
                 .store(newTodo);
     }
 

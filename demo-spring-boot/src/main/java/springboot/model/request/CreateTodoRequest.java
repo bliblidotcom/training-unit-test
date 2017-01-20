@@ -8,6 +8,8 @@ import javax.validation.constraints.NotNull;
  * Created by indra.e.prasetya on 1/18/2017.
  */
 public class CreateTodoRequest {
+  private Long id;
+
   private String name;
   private TodoPriority priority;
 
@@ -25,5 +27,12 @@ public class CreateTodoRequest {
 
   public void setPriority(TodoPriority priority) {
     this.priority = priority;
+  }
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
   }
 }
