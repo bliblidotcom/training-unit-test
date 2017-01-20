@@ -26,6 +26,7 @@ public class TodoService {
     Todo todo = new Todo(name, priority);
       //TODO check if we store same todo
     //  todoRepository.store(todo);
+      //
     return todoRepository.store(todo);
   }
 
