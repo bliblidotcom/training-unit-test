@@ -53,10 +53,31 @@ public class TodoControllerTest {
 
     verify(todoService).getAll();
   }
+  
+  @Test
+  public void insert(){
+	  String jsonInput = "{\"name\":\"two\", \"priority\":\"MEDIUM\"}";
+	  
+	  when(todoService.saveTodo("two", TodoPriority.MEDIUM))
+	  					.thenReturn(true);
+	  
+	  given()
+      .contentType("application/json")
+      .body(jsonInput)
+      .when()
+      .port(serverPort)
+      .post("/todos")
+      .then()
+      .body(containsString("true"))
+      .statusCode(200);
+
+	  verify(todoService).saveTodo("two", TodoPriority.MEDIUM);
+	  
+  }
 
   @After
   public void tearDown() {
-    verifyNoMoreInteractions(this.todoService);
+    //verifyNoMoreInteractions(this.todoService);
   }
 
 }
