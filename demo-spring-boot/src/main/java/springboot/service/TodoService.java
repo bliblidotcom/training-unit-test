@@ -14,20 +14,20 @@ import java.util.List;
  * Created by indra.e.prasetya on 1/18/2017.
  */
 @Service
-public class TodoService {
+public class TodoService implements TodoEntityRepositoryCustom{
 
   private static final Logger LOG = LoggerFactory.getLogger(TodoService.class);
 
   @Autowired
   private TodoRepository todoRepository;
 
+  @Override
   public boolean saveTodo(String name, TodoPriority priority) {
     LOG.debug("saveTodo...");
-    Todo todo = new Todo(name, priority);
-
-    return todoRepository.store(todo);
+    return todoRepository.saveTodo(name, priority);
   }
-
+  
+  @Override
   public List<Todo> getAll() {
     LOG.debug("getAll...");
     List<Todo> result = todoRepository.getAll();
