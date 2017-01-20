@@ -23,7 +23,7 @@ import static org.mockito.Mockito.*;
  * Created by indra.e.prasetya on 1/18/2017.
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class TodoControllerTest {
 
