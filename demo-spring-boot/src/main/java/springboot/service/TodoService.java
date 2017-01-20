@@ -23,11 +23,12 @@ public class TodoService {
   @Autowired
   private TodoRepository todoRepository;
 
-  public Todo saveTodo(String name, TodoPriority priority) {
+  public boolean saveTodo(String name, TodoPriority priority) {
     LOG.debug("saveTodo...");
     Todo todo = new Todo(name, priority);
 
-    return todoRepository.save(todo);
+    todoRepository.save(todo);
+    return true;
   }
 
   public List<Todo> getAll() {
