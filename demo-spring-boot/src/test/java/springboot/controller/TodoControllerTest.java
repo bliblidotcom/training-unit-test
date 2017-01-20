@@ -74,7 +74,9 @@ public class TodoControllerTest {
             given()
             .contentType("application/json")
              .body(gson.toJson(tesTodo))
-            .when()
+
+             //diatas ini parameter-parameter
+             .when()
             .post("/todos")
             .then()
              .body(containsString("value"))
