@@ -22,8 +22,17 @@ public class Todo {
   public Todo(String name, TodoPriority priority) {
     this.name = name;
     this.priority = priority;
+    this.ID=ID;
   }
 
+  public Long getId() {
+	    return ID;
+  }
+
+  public void setId(Long ID) {
+	    this.ID = ID;
+  }
+	  
   public String getName() {
     return name;
   }

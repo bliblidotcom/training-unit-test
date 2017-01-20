@@ -15,8 +15,8 @@ import java.util.List;
  * Created by indra.e.prasetya on 1/18/2017.
  */
 @Service
-public interface TodoRepository extends JpaRepository<Todo, Long> {
-	List<Todo> findByLastname(String name);
-	List<Todo> findById(long ID);
- 
+public interface TodoRepository extends JpaRepository<Todo, Long>,TodoRepositoryCustom {
+//	List<Todo> findByLastname(String name);
+//	List<Todo> findById(long ID);
+// 
 }
