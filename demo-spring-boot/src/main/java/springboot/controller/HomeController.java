@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import springboot.model.response.ResponseWrapper;
+import springboot.repository.TodoEntityRepositoryImpl;
 import springboot.model.Todo;
 import springboot.model.request.CreateTodoRequest;
 import springboot.service.TodoService;
@@ -21,7 +22,7 @@ import java.util.List;
 public class HomeController {
 
   @Autowired
-  private TodoService todoService;
+  private TodoEntityRepositoryImpl todoService;
 
   @GetMapping
   public ResponseWrapper<List<Todo>> all() {
