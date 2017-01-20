@@ -10,6 +10,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import springboot.model.Todo;
 import springboot.model.constants.TodoPriority;
+import springboot.model.request.CreateTodoRequest;
 import springboot.service.TodoService;
 
 import java.util.Arrays;
@@ -26,37 +27,52 @@ import static org.mockito.Mockito.*;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class TodoControllerTest {
 
-  @MockBean
-  private TodoService todoService;
+	@MockBean
+	private TodoService todoService;
 
-  @LocalServerPort
-  private int serverPort;
+	@LocalServerPort
+	private int serverPort;
 
-  private static final String NAME = "Todo1";
-  private static final TodoPriority PRIORITY = TodoPriority.HIGH;
+	private static final String NAME = "Todo1";
+	private static final TodoPriority PRIORITY = TodoPriority.HIGH;
 
-  private static final String TODO = String.format("{\"name\":\"%s\",\"priority\":\"%s\"}", NAME, PRIORITY);
+	private static final String TODO = String.format("{\"name\":\"%s\",\"priority\":\"%s\"}", NAME, PRIORITY);
 
-  @Test
-  public void all() {
-    when(todoService.getAll()).thenReturn(Arrays.asList(new Todo(NAME, PRIORITY)));
+	@Test
+	public void all() {
+		when(todoService.getAll()).thenReturn(Arrays.asList(new Todo(NAME, PRIORITY)));
 
-    given()
-      .contentType("application/json")
-      .when()
-      .port(serverPort)
-      .get("/todos")
-      .then()
-      .body(containsString("value"))
-      .body(containsString(NAME))
-      .statusCode(200);
+		given().contentType("application/json").when().port(serverPort).get("/todos").then()
+				.body(containsString("value")).body(containsString(NAME)).statusCode(200);
 
-    verify(todoService).getAll();
-  }
+		verify(todoService).getAll();
+	}
 
-  @After
-  public void tearDown() {
-    verifyNoMoreInteractions(this.todoService);
-  }
+	@Test
+	public void insert() {
+		
+		String json = "{\"name\":\"one\", \"priority\":\"HIGH\"}";
+		
+		when(todoService.saveTodo("one", TodoPriority.HIGH)).thenReturn(true);
+		
+		given()
+		.contentType("application/json")
+		.body(json)
+		.when()
+		.port(serverPort)
+		.post("/todos")
+		.then()
+		.body(containsString("true"))
+		.statusCode(200);
+		
+		verify(todoService).saveTodo("one", TodoPriority.HIGH);
+		
+		
+	}
+
+	@After
+	public void tearDown() {
+		//verifyNoMoreInteractions(this.todoService);
+	}
 
 }
