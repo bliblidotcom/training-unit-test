@@ -16,12 +16,26 @@ public class Todo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	private String name;
 	private TodoPriority priority;
 
 	public Todo() {
 	}
 
+	public Todo(Long id,String name, TodoPriority priority) {
+		this.id = id;
+		this.name = name;
+		this.priority = priority;
+	}
+	
 	public Todo(String name, TodoPriority priority) {
 		this.name = name;
 		this.priority = priority;

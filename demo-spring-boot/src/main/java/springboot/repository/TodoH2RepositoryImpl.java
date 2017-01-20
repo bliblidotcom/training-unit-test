@@ -30,9 +30,12 @@ public class TodoH2RepositoryImpl implements TodoH2RepositoryCustom {
 	@Override
 	public Todo store(Todo todo) {
 		String sql = "INSERT INTO TODO(id, name, priority) VALUES(:id, :nama, :prioritas);";
-		entityManager.createNativeQuery(sql).setParameter("id", 123).setParameter("nama", todo.getName())
-				.setParameter("prioritas", todo.getPriority().ordinal()).executeUpdate();
+		entityManager.createNativeQuery(sql)
+		.setParameter("id", todo.getId())
+		.setParameter("nama", todo.getName())
+		.setParameter("prioritas", todo.getPriority().ordinal()).executeUpdate();
 		return todo;
+
 	}
 
 }

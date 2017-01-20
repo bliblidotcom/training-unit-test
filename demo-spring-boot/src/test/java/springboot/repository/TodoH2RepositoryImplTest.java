@@ -61,7 +61,7 @@ public class TodoH2RepositoryImplTest {
 	@Test
 	public void saveTodoTest() {
 		// given
-		Todo todoOne = new Todo("ninenine", TodoPriority.HIGH);
+		Todo todoOne = new Todo((long) 12345,"ninenine", TodoPriority.HIGH);
 
 		// when
 		Todo toto = this.todoH2Repository.store(todoOne);
