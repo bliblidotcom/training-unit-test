@@ -70,6 +70,7 @@ public class TodoServiceTest {
 
         // Then
 //        Assert.assertTrue(success);
+        Assert.assertEquals(newTodo, success);
 
         // Verify
         Mockito.verify(this.todoRepository, Mockito.times(1))
