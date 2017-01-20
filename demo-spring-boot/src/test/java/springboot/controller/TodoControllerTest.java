@@ -3,12 +3,14 @@ package springboot.controller;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import springboot.model.Todo;
 import springboot.model.constants.TodoPriority;
+import springboot.model.request.CreateTodoRequest;
 import springboot.service.TodoService;
 
 import java.util.Arrays;
@@ -28,6 +30,9 @@ public class TodoControllerTest {
   @MockBean
   private TodoService todoService;
 
+  @LocalServerPort
+  private int portServer;
+  
   private static final String NAME = "Todo1";
   private static final TodoPriority PRIORITY = TodoPriority.HIGH;
 
@@ -40,6 +45,7 @@ public class TodoControllerTest {
     given()
       .contentType("application/json")
       .when()
+      .port(portServer)
       .get("/todos")
       .then()
       .body(containsString("value"))
@@ -49,9 +55,29 @@ public class TodoControllerTest {
     verify(todoService).getAll();
   }
 
+  @Test
+  public void insert(){
+	  
+	  when(todoService.saveTodo(NAME, PRIORITY)).thenReturn(true);
+	  	  
+	  given()
+	  	.contentType("application/json")
+	  	.content(new CreateTodoRequest(NAME,PRIORITY))
+	  	.when()
+	  	.port(portServer)
+	  	.post("/todos")
+	  	.then()
+	  	.body(containsString("value"))
+	  	.body(containsString("true"))
+	  	.statusCode(200);
+	  
+	  verify(todoService).saveTodo(NAME, PRIORITY);
+  }
+  
   @After
   public void tearDown() {
     verifyNoMoreInteractions(this.todoService);
   }
 
+  
 }

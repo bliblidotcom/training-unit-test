@@ -8,22 +8,32 @@ import javax.validation.constraints.NotNull;
  * Created by indra.e.prasetya on 1/18/2017.
  */
 public class CreateTodoRequest {
-  private String name;
-  private TodoPriority priority;
+	private String name;
+	private TodoPriority priority;
 
-  public String getName() {
-    return name;
-  }
+	public CreateTodoRequest() {
+		// TODO Auto-generated constructor stub
+	}
 
-  public void setName(String name) {
-    this.name = name;
-  }
+	public CreateTodoRequest(String name, TodoPriority priority) {
+		super();
+		this.name = name;
+		this.priority = priority;
+	}
 
-  public TodoPriority getPriority() {
-    return priority;
-  }
+	public String getName() {
+		return name;
+	}
 
-  public void setPriority(TodoPriority priority) {
-    this.priority = priority;
-  }
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public TodoPriority getPriority() {
+		return priority;
+	}
+
+	public void setPriority(TodoPriority priority) {
+		this.priority = priority;
+	}
 }
