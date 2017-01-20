@@ -49,4 +49,13 @@ public class Todo {
     result = 31 * result + priority.hashCode();
     return result;
   }
+
+  @Override
+  public String toString() {
+    final StringBuilder sb = new StringBuilder("Todo{");
+    sb.append("name='").append(name).append('\'');
+    sb.append(", priority=").append(priority);
+    sb.append('}');
+    return sb.toString();
+  }
 }

@@ -12,30 +12,30 @@ public class ResponseWrapper<T> {
   private T value;
 
   public ResponseWrapper() {
-    this.code = 200;
+	this.code = 200;
   }
 
   public Integer getCode() {
-    return code;
+	return code;
   }
 
   public void setCode(Integer code) {
-    this.code = code;
+	this.code = code;
   }
 
   public String getMessage() {
-    return message;
+	return message;
   }
 
   public void setMessage(String message) {
-    this.message = message;
+	this.message = message;
   }
 
   public T getValue() {
-    return value;
+	return value;
   }
 
   public void setValue(T value) {
-    this.value = value;
+	this.value = value;
   }
 }
