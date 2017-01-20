@@ -83,7 +83,7 @@ public class TodoServiceTest {
 
 
         //when
-        boolean testResult = this.todoRepository.store(todo1);
+        boolean testResult = this.todoService.saveTodo(todo1.getName(), todo1.getPriority());
 
         //then
 //        Assert.assertThat(testResult == true, Matchers.equalTo(true));

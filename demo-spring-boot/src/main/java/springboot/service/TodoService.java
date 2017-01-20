@@ -25,6 +25,10 @@ public class TodoService {
     LOG.debug("save Todo...");
     Todo todo = new Todo(name, priority);
 
+    LOG.debug("result : {}", todo);
+
+//    todoRepository.getAll();
+//    todoRepository.store(todo);
     return todoRepository.store(todo);
   }
 
