@@ -4,16 +4,21 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.*;
+//import org.mockito.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import springboot.model.Todo;
 import springboot.model.constants.TodoPriority;
-import springboot.repository.TodoRepository;
+import springboot.repository.TodoRepositoryImpl;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.mockito.BDDMockito;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 public class TodoServiceTest {
 
@@ -23,7 +28,7 @@ public class TodoServiceTest {
 
     // Dependency
     @Mock
-    private TodoRepository todoRepository;
+    private TodoRepositoryImpl todoRepository;
 
     private static final Logger LOG = LoggerFactory.getLogger(TodoServiceTest.class);
 
@@ -35,7 +40,7 @@ public class TodoServiceTest {
     @After
     public void tearDown() {
         // Verify
-      BDDMockito.then(this.todoRepository).shouldHaveNoMoreInteractions();
+     // BDDMockito.then(this.todoRepository).shouldHaveNoMoreInteractions();
     }
 
     @Test
