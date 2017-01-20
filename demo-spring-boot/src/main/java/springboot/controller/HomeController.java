@@ -29,7 +29,7 @@ public class HomeController {
     resp.setValue(todoService.getAll());
 
     return resp;
-  }
+}
 
   @PostMapping
   public ResponseWrapper<Boolean> insert(@RequestBody CreateTodoRequest request) {
@@ -40,6 +40,8 @@ public class HomeController {
 
     return resp;
   }
+
+
 
 
 }
