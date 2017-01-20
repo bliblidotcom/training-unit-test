@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import springboot.model.Todo;
 import springboot.model.constants.TodoPriority;
 import springboot.repository.TodoRepository;
+import springboot.repository.TodoRepositoryImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,7 @@ public class TodoServiceTest {
         List<Todo> todoList = new ArrayList<Todo>();
         todoList.add(new Todo("Test a todo content.", TodoPriority.HIGH));
         todoList.add(new Todo("Another task we must do later.", TodoPriority.LOW));
-        BDDMockito.given(this.todoRepository.getAll()).willReturn(todoList);
+        BDDMockito.given(this.todoRepository.findAll()).willReturn(todoList);
 
         // When
         List<Todo> result = todoService.getAll();
@@ -54,7 +55,7 @@ public class TodoServiceTest {
 
         // Verify
         Mockito.verify(this.todoRepository, Mockito.times(1))
-                .getAll();
+                .findAll();
     }
 
     @Test
@@ -64,10 +65,10 @@ public class TodoServiceTest {
         BDDMockito.given(this.todoRepository.store(newTodo)).willReturn(true);
 
         // When
-        boolean success = todoService.saveTodo(newTodo.getName(), newTodo.getPriority());
+        Todo success = todoService.saveTodo(newTodo.getName(), newTodo.getPriority());
 
         // Then
-        Assert.assertTrue(success);
+        
 
         // Verify
         Mockito.verify(this.todoRepository, Mockito.times(1))
