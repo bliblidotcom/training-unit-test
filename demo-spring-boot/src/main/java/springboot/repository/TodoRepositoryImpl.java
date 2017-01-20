@@ -27,8 +27,8 @@ public class TodoRepositoryImpl implements TodoRepositoryCustom {
 
 	public boolean store(Todo todo) {
 		LOG.debug("store...");
-		//todos.add(todo);
-		
+		todos.add(todo);
+		//this.entitymanager.createNativeQuery(arg0)
 		return true;
 	}
 

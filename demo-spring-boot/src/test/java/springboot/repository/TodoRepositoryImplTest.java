@@ -2,6 +2,8 @@ package springboot.repository;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
 import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Assert;
@@ -31,6 +33,9 @@ import springboot.model.constants.TodoPriority;
 public class TodoRepositoryImplTest {
 	private static final Logger LOG = LoggerFactory.getLogger(TodoRepository.class);
 	@Autowired
+	private EntityManager entitymanager;
+	
+	@Autowired
 	private TodoRepository todorepository;
 	
 	@Before
@@ -46,13 +51,16 @@ public class TodoRepositoryImplTest {
 	@Test
 	public void store() throws Exception{
 		//given
-		Todo todoOne = this.todorepository.save(new Todo("one", TodoPriority.HIGH));
+		Todo todoOne = this.todorepository.save(new Todo("two", TodoPriority.MEDIUM));
 		
 		//when 
 		boolean result = todorepository.store(todoOne);
 		
 		//then
-		Assert.assertThat(todoOne, Matchers.equalTo(todoOne));
+		Todo todoTest = (Todo) this.entitymanager.createNativeQuery(
+				"select id, name, priority from todo where name ='" +todoOne.getName()+ "' and priority ='" + todoOne.getPriority().ordinal()+"'", Todo.class)
+				.getSingleResult();
+		Assert.assertThat(todoOne, Matchers.equalTo(todoTest));
 	}
 	
 	@Test
