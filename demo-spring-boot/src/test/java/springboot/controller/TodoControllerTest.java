@@ -67,6 +67,7 @@ public class TodoControllerTest {
       .contentType("application/json")
       .content(todo)
       .when() // Mengisi dimana
+      .port(serverPort)
       .post("/todos")
       .then() // Mengharapkan apa
       .body(containsString("value"))
