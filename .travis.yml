@@ -1,2 +1,4 @@
 language: java
-script: mvn clean package -T1C -e -X
+script: 
+- cd demo-spring-boot
+- mvn clean package -T1C -e -X
