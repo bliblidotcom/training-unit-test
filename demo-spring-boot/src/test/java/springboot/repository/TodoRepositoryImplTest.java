@@ -6,12 +6,14 @@
 package springboot.repository;
 
 import java.util.List;
+import javax.persistence.EntityManager;
 import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.BDDMockito;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
@@ -40,6 +42,10 @@ import springboot.model.constants.TodoPriority;
 
 
 public class TodoRepositoryImplTest {
+    
+    @Autowired
+    private EntityManager entityManager;
+    
     @Autowired
     TodoRepository todoRepository;
     private static final Logger LOG = LoggerFactory.getLogger(TodoRepository.class);
@@ -68,8 +74,27 @@ public class TodoRepositoryImplTest {
         Assert.assertThat(todoList.get(0), Matchers.equalTo(todoOne));//mastiin objeknya persis sama
     
     }
+        
     
-    
-    
-    
+    @Test
+    public void saveTodo() {
+        LOG.debug("====Save to Do===========");
+
+        //Todo todo = new Todo("1", TodoPriority.HIGH);
+        //given
+        Todo todo1 = this.todoRepository.save(new Todo("satu",TodoPriority.MEDIUM));
+        
+        //when
+        //Boolean testResult = this.todoRepository.saveTodo(todo.getName(), todo.getPriority());
+        Boolean testResult = this.todoRepository.store(todo1);
+        //then
+
+        //asert
+        Todo todo = (Todo) this.entityManager.createNativeQuery(
+                "select id, name, priority from todo where name = '"+todo1.getName()+"' and priority ='"+todo1.getPriority().ordinal()+"'", Todo.class)
+                .getSingleResult();
+        Assert.assertThat(todo1, Matchers.equalTo(todo));
+        //verify
+        //BDDMockito.then(this.todoRepository).should(BDDMockito.times(1)).store(todo);
+    }
 }
