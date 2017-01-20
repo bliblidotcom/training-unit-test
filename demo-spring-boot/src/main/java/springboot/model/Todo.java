@@ -2,18 +2,32 @@ package springboot.model;
 
 import springboot.model.constants.TodoPriority;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 /**
  * Created by indra.e.prasetya on 1/18/2017.
  */
+
+@Entity
 public class Todo {
+
+  @Id
+  @GeneratedValue
+  private Long id;
 
   private String name;
   private TodoPriority priority;
 
-  public Todo(String name, TodoPriority priority) {
+  public Todo(Long id,String name, TodoPriority priority) {
+    this.id=id;
     this.name = name;
     this.priority = priority;
+
   }
+
+  public Todo(){}
 
   public String getName() {
     return name;
@@ -30,6 +44,10 @@ public class Todo {
   public void setPriority(TodoPriority priority) {
     this.priority = priority;
   }
+
+  public Long getId() {return id;}
+
+  public void setId(Long id) {this.id = id;}
 
   @Override
   public boolean equals(Object o) {
