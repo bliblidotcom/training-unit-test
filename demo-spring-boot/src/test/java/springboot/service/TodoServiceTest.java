@@ -1,77 +1,102 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package springboot.service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
+import org.hamcrest.Matchers;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.*;
-
-import org.slf4j.Logger;
+import org.mockito.BDDMockito;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+//import org.mockito.BDDMockito;
+//import static org.mockito.BDDMockito.given;
+//import org.mockito.InjectMocks;
+//import org.mockito.Mock;
+//import org.mockito.Mockito;
+//import org.mockito.MockitoAnnotations;
 import org.slf4j.LoggerFactory;
 import springboot.model.Todo;
 import springboot.model.constants.TodoPriority;
+
 import springboot.repository.TodoRepository;
 
-import java.util.ArrayList;
-import java.util.List;
-
+/**
+ *
+ * @author Amesa
+ */
 public class TodoServiceTest {
 
-    // The System Under Test (SUT)
-    @InjectMocks
+    private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(TodoServiceTest.class);
+
+    @InjectMocks //add service, bikin obj baru
     private TodoService todoService;
 
-    // Dependency
     @Mock
     private TodoRepository todoRepository;
 
-    private static final Logger LOG = LoggerFactory.getLogger(TodoServiceTest.class);
-
     @Before
-    public void setUp() {
+    public void setUp() { //sebelum method unit test
+        LOG.debug("===before (Setup)============");
         MockitoAnnotations.initMocks(this);
+
     }
 
     @After
-    public void tearDown() {
-        // Verify
-      BDDMockito.then(this.todoRepository).shouldHaveNoMoreInteractions();
+    public void tearDown() { //setelah tiap method unit test
+        LOG.debug("===After....============");
+        Mockito.verifyNoMoreInteractions(this.todoRepository);
     }
 
     @Test
     public void getAllTest() {
-        // Given
+        LOG.debug("===GET ALL TEST===========");
+
+        //given
         List<Todo> todoList = new ArrayList<Todo>();
-        todoList.add(new Todo("Test a todo content.", TodoPriority.HIGH));
-        todoList.add(new Todo("Another task we must do later.", TodoPriority.LOW));
+        todoList.add(new Todo("one", TodoPriority.HIGH));
+        todoList.add(new Todo("two", TodoPriority.MEDIUM));
         BDDMockito.given(this.todoRepository.getAll()).willReturn(todoList);
 
-        // When
-        List<Todo> result = todoService.getAll();
+        //when
+        List<Todo> testResult = this.todoService.getAll();
 
-        // Then
-        Assert.assertEquals(todoList, result);
-
-        // Verify
-        Mockito.verify(this.todoRepository, Mockito.times(1))
-                .getAll();
+        //then
+        //asert
+        Assert.assertThat(testResult == todoList, Matchers.equalTo(true));
+        Assert.assertThat(testResult, Matchers.equalTo(todoList));//mastiin objeknya persis sama
+        //verify
+        BDDMockito.then(this.todoRepository).should(BDDMockito.times(1)).getAll();
+        //Mockito.verifyNoMoreInteractions(this.todoRepository);
     }
 
     @Test
-    public void saveTodoTest() {
-        // Given
-        Todo newTodo = new Todo("Test insert new todo item.", TodoPriority.LOW);
-        BDDMockito.given(this.todoRepository.store(newTodo)).willReturn(true);
+    public void saveTodo() {
+        LOG.debug("====Save to Do===========");
+        //this.todoService.saveTodo(null,null);
 
-        // When
-        boolean success = todoService.saveTodo(newTodo.getName(), newTodo.getPriority());
+        Todo todo = new Todo("1", TodoPriority.HIGH);
+        //given
+        BDDMockito.given(this.todoRepository.store(todo)).willReturn(true);
 
-        // Then
-        Assert.assertTrue(success);
+        //when
+        Boolean testResult = this.todoService.saveTodo(todo.getName(), todo.getPriority());
+        //then
 
-        // Verify
-        Mockito.verify(this.todoRepository, Mockito.times(1))
-                .store(newTodo);
+        //asert
+        Assert.assertThat(testResult, Matchers.equalTo(true));
+        //verify
+        BDDMockito.then(this.todoRepository).should(BDDMockito.times(1)).store(todo);
     }
 
 }
