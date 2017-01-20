@@ -1,7 +1,11 @@
 package springboot.repository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
 import springboot.model.Todo;
+import springboot.service.TodoService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,15 +16,18 @@ import java.util.List;
 @Service
 public class TodoRepository {
 
-  private final List<Todo> todos = new ArrayList<Todo>();
+	private static Logger LOG = LoggerFactory.getLogger(TodoService.class);
 
-  public boolean store(Todo todo) {
-    todos.add(todo);
+	private final List<Todo> todos = new ArrayList<Todo>();
 
-    return true;
-  }
+	public boolean store(Todo todo) {
+		LOG.debug("Repo save called");
+		todos.add(todo);
+		return true;
+	}
 
-  public List<Todo> getAll() {
-    return new ArrayList<Todo>(todos);
-  }
+	public List<Todo> getAll() {
+		LOG.debug("Repo getAll called");		
+		return new ArrayList<Todo>(todos);
+	}
 }
