@@ -57,13 +57,16 @@ public class TodoControllerTest {
 
   @Test
   public void insert() {
+    CreateTodoRequest todoreq = new CreateTodoRequest();
+    todoreq.setName(NAME);
+    todoreq.setPriority(PRIORITY);
 
     when(todoService.saveTodo(NAME, PRIORITY)).thenReturn(true);
 
     given()
         .contentType("application/json")
         .when()
-        .body("{\"name\":\"Todo1\",\"priority\":\"HIGH\"}")
+        .content(todoreq)
         .port(serverPort)
         .post("/todos")
         .then()
