@@ -27,7 +27,7 @@ public class TodoService {
 
     return todoRepository.save(todo);
   }
-
+  
   public List<Todo> getAll() {
     LOG.debug("getAll...");
     List<Todo> result = todoRepository.findAll();
