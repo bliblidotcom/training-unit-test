@@ -74,5 +74,22 @@ public class TodoServiceTest {
     public void saveTodoTest(){
         LOG.debug("saveTodoTest.....");
 //        this.todoService.saveTodo(null, null);
+
+        //given
+        boolean check = true;
+        Todo todo1 = new Todo("todo1", TodoPriority.HIGH);
+//        boolean testResult = this.todoRepository.store(todo1);
+        BDDMockito.given(this.todoRepository.store(todo1)).willReturn(check);
+
+
+        //when
+        boolean testResult = this.todoRepository.store(todo1);
+
+        //then
+//        Assert.assertThat(testResult == true, Matchers.equalTo(true));
+        Assert.assertThat(testResult, Matchers.equalTo(check));
+
+        //verify
+        BDDMockito.then(this.todoRepository).should(BDDMockito.times(1)).store(todo1);
     }
 }
