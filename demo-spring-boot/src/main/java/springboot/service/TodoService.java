@@ -24,13 +24,14 @@ public class TodoService {
   public boolean saveTodo(String name, TodoPriority priority) {
     LOG.debug("saveTodo...");
     Todo todo = new Todo(name, priority);
+    todoRepository.save(todo);
 
-    return todoRepository.store(todo);
+    return true;
   }
 
   public List<Todo> getAll() {
     LOG.debug("getAll...");
-    List<Todo> result = todoRepository.getAll();
+    List<Todo> result = todoRepository.findAll();
     LOG.debug("result:{}", result);
     return result;
   }

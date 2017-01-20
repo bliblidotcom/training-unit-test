@@ -1,11 +1,21 @@
 package springboot.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 import springboot.model.constants.TodoPriority;
 
 /**
  * Created by indra.e.prasetya on 1/18/2017.
  */
+@Entity
 public class Todo {
+
+  @Id
+  @GeneratedValue(strategy=GenerationType.AUTO)
+  private Long id;
 
   private String name;
   private TodoPriority priority;
@@ -13,6 +23,10 @@ public class Todo {
   public Todo(String name, TodoPriority priority) {
     this.name = name;
     this.priority = priority;
+  }
+
+  public Long getId() {
+    return id;
   }
 
   public String getName() {
@@ -53,6 +67,7 @@ public class Todo {
   @Override
   public String toString() {
     final StringBuilder sb = new StringBuilder("Todo{");
+    sb.append("id='").append(id).append('\'');
     sb.append("name='").append(name).append('\'');
     sb.append(", priority=").append(priority);
     sb.append('}');
