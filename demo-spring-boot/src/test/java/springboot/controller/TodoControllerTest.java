@@ -53,6 +53,24 @@ public class TodoControllerTest {
 
     verify(todoService).getAll();
   }
+  
+  @Test
+  public void save(){
+	  when(todoService.saveTodo(NAME, PRIORITY)).thenReturn(true);
+	  
+	  given()
+	  	.contentType("application/json")
+	  	.content(TODO)
+	  	.when()
+	  	.port(serverPort)
+	  	.post("/todos")
+	  	.then()
+	  	.body(containsString("value"))
+	  	.body(containsString("true"))
+	  	.statusCode(200);
+	  
+	  verify(todoService).saveTodo(NAME, PRIORITY);
+  }
 
   @After
   public void tearDown() {
