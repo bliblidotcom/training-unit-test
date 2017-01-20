@@ -5,9 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import springboot.model.Todo;
-import springboot.model.constants.TodoPriority;
-import springboot.repository.TodoRepository;
+import springboot.repository.TodoH2Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,23 +16,27 @@ import java.util.List;
 @Service
 public class TodoService {
 
-  private static final Logger LOG = LoggerFactory.getLogger(TodoService.class);
+	private static final Logger LOG = LoggerFactory.getLogger(TodoService.class);
 
-  @Autowired
-  private TodoRepository todoRepository;
+	@Autowired
+	private TodoH2Repository todoRepository;
 
-  public boolean saveTodo(String name, TodoPriority priority) {
-    LOG.debug("saveTodo...");
-    Todo todo = new Todo(name, priority);
+	public Todo saveTodo(Todo todo) {
+		LOG.debug("saveTodo...");
+		Todo tudu = todoRepository.store(todo);
+		LOG.debug("result: "+ tudu.toString());
+		return tudu;
 
-    return todoRepository.store(todo);
-  }
+	}
 
-  public List<Todo> getAll() {
-    LOG.debug("getAll...");
-    List<Todo> result = todoRepository.getAll();
-    LOG.debug("result:{}", result);
-    return result;
-  }
+	public List<Todo> getAll() {
+		List<Todo> todoList = new ArrayList<Todo>();
+		LOG.debug("getAll...");
+		for (Todo todo : todoRepository.getAll()) {
+			todoList.add(todo);
+		}
+		LOG.debug("result : {}", todoList);
+		return todoList;
+	}
 
 }

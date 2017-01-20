@@ -32,10 +32,12 @@ public class HomeController {
   }
 
   @PostMapping
-  public ResponseWrapper<Boolean> insert(@RequestBody CreateTodoRequest request) {
-    boolean success = todoService.saveTodo(request.getName(), request.getPriority());
-
-    ResponseWrapper<Boolean> resp = new ResponseWrapper<Boolean>();
+  public ResponseWrapper<Todo> insert(@RequestBody CreateTodoRequest request) {
+	  Todo todo = new Todo(request.getName(),request.getPriority());
+	  
+    Todo success = todoService.saveTodo(todo);
+    
+    ResponseWrapper<Todo> resp = new ResponseWrapper<Todo>();
     resp.setValue(success);
 
     return resp;
