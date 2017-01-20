@@ -2,3 +2,4 @@ language: java
 script: 
 - cd demo-spring-boot
 - mvn clean package -T1C -e
+
