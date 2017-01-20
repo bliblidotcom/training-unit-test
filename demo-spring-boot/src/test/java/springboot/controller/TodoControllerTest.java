@@ -16,7 +16,7 @@ import java.util.Arrays;
 import static com.jayway.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.*;
-import springboot.model.request.CreateTodoRequest;
+import org.springframework.boot.context.embedded.LocalServerPort;
 
 /**
  * Created by indra.e.prasetya on 1/18/2017.
@@ -34,11 +34,15 @@ public class TodoControllerTest {
 
   private static final String TODO = String.format("{\"name\":\"%s\",\"priority\":\"%s\"}", NAME, PRIORITY);
 
+  @LocalServerPort
+  private int serverPort;
+  
   @Test
   public void all() {    
     when(todoService.getAll()).thenReturn(Arrays.asList(new Todo(NAME, PRIORITY)));
 
     given()
+      .port(serverPort)
       .contentType("application/json")
       .when()
       .get("/todos")
@@ -55,6 +59,7 @@ public class TodoControllerTest {
     when(todoService.saveTodo(NAME, PRIORITY)).thenReturn(true);
     
     given()
+      .port(serverPort)
       .contentType("application/json")
       .when()
       .body(TODO)
