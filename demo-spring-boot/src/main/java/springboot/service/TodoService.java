@@ -1,5 +1,7 @@
 package springboot.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import springboot.model.Todo;
@@ -14,17 +16,22 @@ import java.util.List;
 @Service
 public class TodoService {
 
-  @Autowired
-  private TodoRepository todoRepository;
+	private static Logger LOG = LoggerFactory.getLogger(TodoService.class);
 
-  public boolean saveTodo(String name, TodoPriority priority) {
-    Todo todo = new Todo(name, priority);
+	@Autowired
+	private TodoRepository todoRepository;
 
-    return todoRepository.store(todo);
-  }
+	public boolean saveTodo(String name, TodoPriority priority) {
+		LOG.debug("service saveTodo called");		
+		Todo todo = new Todo(name, priority);
+		return todoRepository.store(todo);
+	}
 
-  public List<Todo> getAll() {
-    return todoRepository.getAll();
-  }
+	public List<Todo> getAll() {
+		LOG.debug("service getall called");
+		List<Todo> list = todoRepository.getAll();
+		LOG.debug("service getAll value : {}",list);
+		return list;
+	}
 
 }
