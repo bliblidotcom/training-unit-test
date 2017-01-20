@@ -57,7 +57,6 @@ public class TodoControllerTest {
 
   @Test
   public void insert() {
-    CreateTodoRequest todoreq = new CreateTodoRequest();
 
     when(todoService.saveTodo(NAME, PRIORITY)).thenReturn(true);
 
