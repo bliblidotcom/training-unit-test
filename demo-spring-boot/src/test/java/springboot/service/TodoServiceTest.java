@@ -79,7 +79,20 @@ public class TodoServiceTest {
     public void saveTodo() {
           LOG.debug("====Save to Do===========");
         //this.todoService.saveTodo(null,null);
-
+        
+        Todo todo = new Todo("1", TodoPriority.HIGH);
+        //given
+        BDDMockito.given(this.todoRepository.store(todo)).willReturn(true);
+        
+        //when
+        Boolean testResult = this.todoService.saveTodo(todo.getName(), todo.getPriority());
+        //then
+               
+        //asert
+        
+        Assert.assertThat(testResult, Matchers.equalTo(true));
+        //verify
+        BDDMockito.then(this.todoRepository).should(BDDMockito.times(1)).store(todo);
     }
 
 }

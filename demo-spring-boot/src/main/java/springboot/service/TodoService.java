@@ -22,6 +22,7 @@ public class TodoService {
 
     public boolean saveTodo(String name, TodoPriority priority) {
         Todo todo = new Todo(name, priority);
+        
         LOG.debug(".....Save to Do===========");
         return todoRepository.store(todo);
     }
@@ -29,7 +30,7 @@ public class TodoService {
     public List<Todo> getAll() { //ambil semua todo 
         LOG.debug("GetAll (service)");
         List<Todo> result = todoRepository.getAll();
-      //  todoRepository.store(null);
+        // todoRepository.store(null);
         LOG.debug("result:{}", result);
         return result;
     }
