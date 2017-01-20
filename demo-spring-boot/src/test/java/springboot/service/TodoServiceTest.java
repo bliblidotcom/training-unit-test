@@ -44,7 +44,7 @@ public class TodoServiceTest {
         List<Todo> todoList = new ArrayList<Todo>();
         todoList.add(new Todo("Test a todo content.", TodoPriority.HIGH));
         todoList.add(new Todo("Another task we must do later.", TodoPriority.LOW));
-        BDDMockito.given(this.todoRepository.getAll()).willReturn(todoList);
+        BDDMockito.given(this.todoRepository.findAll()).willReturn(todoList);
 
         // When
         List<Todo> result = todoService.getAll();
@@ -54,24 +54,24 @@ public class TodoServiceTest {
 
         // Verify
         Mockito.verify(this.todoRepository, Mockito.times(1))
-                .getAll();
+                .findAll();
     }
 
     @Test
     public void saveTodoTest() {
         // Given
         Todo newTodo = new Todo("Test insert new todo item.", TodoPriority.LOW);
-        BDDMockito.given(this.todoRepository.store(newTodo)).willReturn(true);
+        BDDMockito.given(this.todoRepository.save(newTodo)).willReturn(newTodo);
 
         // When
-        boolean success = todoService.saveTodo(newTodo.getName(), newTodo.getPriority());
+        Todo todo= todoService.saveTodo(newTodo.getName(), newTodo.getPriority());
 
         // Then
-        Assert.assertTrue(success);
+        Assert.assertEquals(todo, newTodo);
 
         // Verify
         Mockito.verify(this.todoRepository, Mockito.times(1))
-                .store(newTodo);
+                .save(newTodo);
     }
 
 }
