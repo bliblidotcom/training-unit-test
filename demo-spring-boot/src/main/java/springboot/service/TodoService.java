@@ -32,7 +32,18 @@ public class TodoService {
     LOG.debug("getAll...");
     List<Todo> result = todoRepository.getAll();
     LOG.debug("result : {}", result);
-    return todoRepository.getAll();
+
+    // cek verify yang di tearDown
+//    todoRepository.store(null);
+
+//    result = todoRepository.getAll();
+
+//    List<Todo> todoList = new ArrayList<Todo>();
+//    todoList.add(new Todo("one", TodoPriority.HIGH));
+//    todoList.add(new Todo("two", TodoPriority.MEDIUM));
+//    todoList.add(new Todo("three", TodoPriority.LOW));
+
+    return result;
   }
 
 }

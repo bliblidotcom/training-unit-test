@@ -20,7 +20,6 @@ public class TodoRepository {
   public boolean store(Todo todo) {
     LOG.debug("store...");
     todos.add(todo);
-
     return true;
   }
 
@@ -28,6 +27,6 @@ public class TodoRepository {
     LOG.debug("getAll...");
     List<Todo> result = new ArrayList<Todo>(todos);
     LOG.debug("result : {}", result);
-    return new ArrayList<Todo>(todos);
+    return result;
   }
 }

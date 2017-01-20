@@ -1,15 +1,20 @@
 package springboot.service;
 
 
+import org.hamcrest.Matchers;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import springboot.model.Todo;
+import springboot.model.constants.TodoPriority;
 import springboot.repository.TodoRepository;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TodoServiceTest {
 
@@ -36,17 +41,38 @@ public class TodoServiceTest {
     @After //dari library junit
     public void tearDown(){
         LOG.debug("tearDown.....");
+        // verify
+        Mockito.verifyNoMoreInteractions(this.todoRepository);
     }
 
     @Test
     public void getAllTest(){
         LOG.debug("getAllTest.....");
-        this.todoService.getAll();
+
+        //given
+        List<Todo> todoList = new ArrayList<Todo>();
+        todoList.add(new Todo("one", TodoPriority.HIGH));
+        todoList.add(new Todo("two", TodoPriority.MEDIUM));
+        todoList.add(new Todo("three", TodoPriority.LOW));
+        BDDMockito.given(this.todoRepository.getAll()).willReturn(todoList);
+
+        //when
+        List<Todo> testResult = this.todoService.getAll();
+
+        //then
+        //assert buat ngecek value
+        //cek objek yang sama. yang dibandingin hash memorynya
+        Assert.assertThat(testResult == todoList, Matchers.equalTo(true));
+        //cek objek yang sama. yang dibandingin valuenya.
+        Assert.assertThat(testResult, Matchers.equalTo(todoList));
+
+        //verify
+        BDDMockito.then(this.todoRepository).should(BDDMockito.times(1)).getAll();
     }
 
     @Test
     public void saveTodoTest(){
         LOG.debug("saveTodoTest.....");
-        this.todoService.saveTodo(null, null);
+//        this.todoService.saveTodo(null, null);
     }
 }
