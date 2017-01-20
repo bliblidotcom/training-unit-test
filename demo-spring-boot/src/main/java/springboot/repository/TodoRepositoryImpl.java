@@ -21,7 +21,8 @@ public class TodoRepositoryImpl implements TodoRepositoryCustom{
     @Override
     public boolean store(Todo todo) {
         LOG.debug("store.....");
-//        this.entityManager.crea
+        this.entityManager.persist(todo);
+        this.entityManager.flush();
         return true;
     }
 

@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import springboot.Configuration;
 import springboot.model.Todo;
 import springboot.model.constants.TodoPriority;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 /**
@@ -37,8 +39,8 @@ public class TodoRepositoryImplTest{
     @Autowired
     private TodoRepository todoRepository;
 
-//    @Autowired
-//    JdbcTemplate jdbcTemplate;
+    @Autowired
+    private EntityManager entityManager;
 
     @Before
     public void setUp() throws Exception{
@@ -62,6 +64,28 @@ public class TodoRepositoryImplTest{
         //then
         Assert.assertThat(todoList.isEmpty(), Matchers.equalTo(false));
         Assert.assertThat(todoList.get(0), Matchers.equalTo(todoOne));
+    }
+
+    @Test
+    public void saveTodoTest() throws Exception {
+        // Given
+        Todo newTodo = new Todo("Test insert new todo item.", TodoPriority.LOW);
+        Boolean check = this.todoRepository.store(newTodo);
+
+        // When
+        Boolean success = this.todoRepository.store(newTodo);
+
+
+        // Then
+//        Assert.assertTrue(success);
+//        Assert.assertEquals(newTodo, success);
+        Assert.assertThat(success, Matchers.equalTo(check));
+        List <Todo>todoGetList = this.entityManager
+                .createNativeQuery("SELECT id, name, priority from todo where name ='"+newTodo.getName()+"' and priority = '"+newTodo.getPriority().ordinal()+"'", Todo.class).getResultList();
+//        Todo todoGet = (Todo) this.entityManager
+//                .createNativeQuery("SELECT id, name, priority from todo where name ='"+newTodo.getName()+"' and priority = '"+newTodo.getPriority()+"'", Todo.class).getSingleResult();
+        Assert.assertThat(todoGetList.get(0), Matchers.equalTo(newTodo));
+
     }
 
 }

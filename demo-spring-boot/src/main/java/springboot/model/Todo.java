@@ -16,6 +16,7 @@ public class Todo {
   @Id
   @GeneratedValue(strategy= GenerationType.AUTO)
   private Long id;
+
   private String name;
   private TodoPriority priority;
 
