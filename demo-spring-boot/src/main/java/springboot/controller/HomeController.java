@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import springboot.model.response.ResponseWrapper;
 import springboot.model.Todo;
 import springboot.model.request.CreateTodoRequest;
-import springboot.service.TodoService;
+import springboot.TodoService;
 
 import java.util.List;
 
