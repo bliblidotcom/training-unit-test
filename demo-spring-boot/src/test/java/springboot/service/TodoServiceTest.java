@@ -35,7 +35,7 @@ public class TodoServiceTest {
     @After
     public void tearDown() {
         // Verify
-        Mockito.verifyNoMoreInteractions(this.todoRepository);
+      BDDMockito.then(this.todoRepository).shouldHaveNoMoreInteractions();
     }
 
     @Test

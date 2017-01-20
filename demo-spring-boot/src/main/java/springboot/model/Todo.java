@@ -52,9 +52,10 @@ public class Todo {
 
   @Override
   public String toString() {
-    return "Todo{" +
-            "name='" + name + '\'' +
-            ", priority=" + priority +
-            '}';
+    final StringBuilder sb = new StringBuilder("Todo{");
+    sb.append("name='").append(name).append('\'');
+    sb.append(", priority=").append(priority);
+    sb.append('}');
+    return sb.toString();
   }
 }
