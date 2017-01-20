@@ -1,10 +1,14 @@
 package springboot.service;
 
+import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +39,7 @@ public class TodoServiceTest {
     @After
     public void tearDown() {
         // Verify
-      BDDMockito.then(this.todoRepository).shouldHaveNoMoreInteractions();
+        Mockito.verifyNoMoreInteractions(this.todoRepository);
     }
 
     @Test
@@ -44,34 +48,34 @@ public class TodoServiceTest {
         List<Todo> todoList = new ArrayList<Todo>();
         todoList.add(new Todo("Test a todo content.", TodoPriority.HIGH));
         todoList.add(new Todo("Another task we must do later.", TodoPriority.LOW));
-        BDDMockito.given(this.todoRepository.getAll()).willReturn(todoList);
+        Mockito.when(this.todoRepository.findAll()).thenReturn(todoList);
 
         // When
         List<Todo> result = todoService.getAll();
 
         // Then
-        Assert.assertEquals(todoList, result);
+        Assert.assertThat(result, Matchers.equalTo(todoList));
 
         // Verify
         Mockito.verify(this.todoRepository, Mockito.times(1))
-                .getAll();
+                .findAll();
     }
 
     @Test
     public void saveTodoTest() {
         // Given
         Todo newTodo = new Todo("Test insert new todo item.", TodoPriority.LOW);
-        BDDMockito.given(this.todoRepository.store(newTodo)).willReturn(true);
+        Mockito.when(this.todoRepository.save(newTodo)).thenReturn(newTodo);
 
         // When
         boolean success = todoService.saveTodo(newTodo.getName(), newTodo.getPriority());
 
         // Then
-        Assert.assertTrue(success);
+        Assert.assertThat(success, Matchers.equalTo(true));
 
         // Verify
         Mockito.verify(this.todoRepository, Mockito.times(1))
-                .store(newTodo);
+                .save(newTodo);
     }
 
 }
