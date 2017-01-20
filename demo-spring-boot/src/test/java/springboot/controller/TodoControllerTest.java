@@ -23,7 +23,7 @@ import static org.mockito.Mockito.*;
  * Created by indra.e.prasetya on 1/18/2017.
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class TodoControllerTest {
 
@@ -31,8 +31,8 @@ public class TodoControllerTest {
   private TodoService todoService;
 
   @LocalServerPort
-  private int portServer;
-  
+  private int serverPort;
+
   private static final String NAME = "Todo1";
   private static final TodoPriority PRIORITY = TodoPriority.HIGH;
 
@@ -45,7 +45,7 @@ public class TodoControllerTest {
     given()
       .contentType("application/json")
       .when()
-      .port(portServer)
+      .port(serverPort)
       .get("/todos")
       .then()
       .body(containsString("value"))
