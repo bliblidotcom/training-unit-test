@@ -10,6 +10,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import springboot.model.Todo;
 import springboot.model.constants.TodoPriority;
+import springboot.model.request.CreateTodoRequest;
 import springboot.service.TodoService;
 
 import java.util.Arrays;
@@ -54,6 +55,27 @@ public class TodoControllerTest {
     verify(todoService).getAll();
   }
 
+  @Test
+  public void insert(){
+      CreateTodoRequest todo = new CreateTodoRequest();
+      todo.setName(NAME);
+      todo.setPriority(PRIORITY);
+      when(todoService.saveTodo(NAME, PRIORITY)).thenReturn(true);
+
+      given()
+       // Mengirimkan data apa saja
+      .contentType("application/json")
+      .content(todo)
+      .when() // Mengisi dimana
+      .port(serverPort)
+      .post("/todos")
+      .then() // Mengharapkan apa
+      .body(containsString("value"))
+      .body(containsString("true"))
+      .statusCode(200);
+
+      verify(todoService).saveTodo(NAME, PRIORITY);
+  }
   @After
   public void tearDown() {
     verifyNoMoreInteractions(this.todoService);
