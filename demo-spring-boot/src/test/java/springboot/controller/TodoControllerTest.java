@@ -30,6 +30,7 @@ public class TodoControllerTest {
 
   private static final String NAME = "Todo1";
   private static final TodoPriority PRIORITY = TodoPriority.HIGH;
+
   private static final String TODO = String.format("{\"name\":\"%s\",\"priority\":\"%s\"}", NAME, PRIORITY);
 
   @Test
@@ -46,23 +47,6 @@ public class TodoControllerTest {
       .statusCode(200);
 
     verify(todoService).getAll();
-  }
-
-  @Test
-  public void insert() {
-    when(todoService.saveTodo(NAME, PRIORITY)).thenReturn(true);
-
-    given()
-      .contentType("application/json")
-      .body(TODO)
-      .when()
-      .post("/todos")
-      .then()
-      .body(containsString("value"))
-      .body(containsString("true"))
-      .statusCode(200);
-
-    verify(todoService).saveTodo(NAME, PRIORITY);
   }
 
   @After
