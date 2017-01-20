@@ -49,4 +49,8 @@ public class Todo {
     result = 31 * result + priority.hashCode();
     return result;
   }
+  
+  public String toString(){
+	  return name+" - "+priority;
+  }
 }
