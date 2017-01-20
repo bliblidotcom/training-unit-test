@@ -6,13 +6,13 @@
 package springboot.repository;
 
 import java.util.List;
-import org.springframework.data.repository.CrudRepository;
 import springboot.model.Todo;
 
 /**
  *
  * @author ALz
  */
-public interface TodoRepository extends CrudRepository<Todo, Long>,TodoRepositoryCustom{
-    
+public interface TodoRepositoryCustom {
+    public boolean store(Todo todo) ;
+    public List<Todo> getAll();
 }
