@@ -15,6 +15,14 @@ public class Todo {
     this.priority = priority;
   }
 
+  @Override
+  public String toString() {
+    return "Todo{" +
+            "name='" + name + '\'' +
+            ", priority=" + priority +
+            '}';
+  }
+
   public String getName() {
     return name;
   }
