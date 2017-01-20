@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import springboot.model.Todo;
 import springboot.model.constants.TodoPriority;
+import springboot.repository.TodoH2Repository;
 import springboot.repository.TodoRepository;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class TodoServiceTest {
 
     // Dependency
     @Mock
-    private TodoRepository todoRepository;
+    private TodoH2Repository todoRepository;
 
     private static final Logger LOG = LoggerFactory.getLogger(TodoServiceTest.class);
 
@@ -61,13 +62,13 @@ public class TodoServiceTest {
     public void saveTodoTest() {
         // Given
         Todo newTodo = new Todo("Test insert new todo item.", TodoPriority.LOW);
-        BDDMockito.given(this.todoRepository.store(newTodo)).willReturn(true);
+        BDDMockito.given(this.todoRepository.store(newTodo)).willReturn(newTodo);
 
         // When
-        boolean success = todoService.saveTodo(newTodo.getName(), newTodo.getPriority());
+        Todo success = todoService.saveTodo(newTodo);
 
         // Then
-        Assert.assertTrue(success);
+        Assert.assertEquals(newTodo, success);
 
         // Verify
         Mockito.verify(this.todoRepository, Mockito.times(1))

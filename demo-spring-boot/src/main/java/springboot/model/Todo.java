@@ -1,61 +1,76 @@
 package springboot.model;
 
+import springboot.model.Todo;
 import springboot.model.constants.TodoPriority;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  * Created by indra.e.prasetya on 1/18/2017.
  */
+@Entity
 public class Todo {
 
-  private String name;
-  private TodoPriority priority;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+	private String name;
+	private TodoPriority priority;
 
-  public Todo(String name, TodoPriority priority) {
-    this.name = name;
-    this.priority = priority;
-  }
+	public Todo() {
+	}
 
-  public String getName() {
-    return name;
-  }
+	public Todo(String name, TodoPriority priority) {
+		this.name = name;
+		this.priority = priority;
+	}
 
-  public void setName(String name) {
-    this.name = name;
-  }
+	public String getName() {
+		return name;
+	}
 
-  public TodoPriority getPriority() {
-    return priority;
-  }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-  public void setPriority(TodoPriority priority) {
-    this.priority = priority;
-  }
+	public TodoPriority getPriority() {
+		return priority;
+	}
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+	public void setPriority(TodoPriority priority) {
+		this.priority = priority;
+	}
 
-    Todo todo = (Todo) o;
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
 
-    if (!name.equals(todo.name)) return false;
-    return priority.equals(todo.priority);
+		Todo todo = (Todo) o;
 
-  }
+		if (!name.equals(todo.name))
+			return false;
+		return priority.equals(todo.priority);
 
-  @Override
-  public int hashCode() {
-    int result = name.hashCode();
-    result = 31 * result + priority.hashCode();
-    return result;
-  }
+	}
 
-  @Override
-  public String toString() {
-    final StringBuilder sb = new StringBuilder("Todo{");
-    sb.append("name='").append(name).append('\'');
-    sb.append(", priority=").append(priority);
-    sb.append('}');
-    return sb.toString();
-  }
+	@Override
+	public int hashCode() {
+		int result = name.hashCode();
+		result = 31 * result + priority.hashCode();
+		return result;
+	}
+
+	@Override
+	public String toString() {
+		final StringBuilder sb = new StringBuilder("Todo{");
+		sb.append("name='").append(name).append('\'');
+		sb.append(", priority=").append(priority);
+		sb.append('}');
+		return sb.toString();
+	}
 }
