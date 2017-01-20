@@ -26,6 +26,7 @@ public class HomeController {
   @GetMapping
   public ResponseWrapper<List<Todo>> all() {
     ResponseWrapper<List<Todo>> resp = new ResponseWrapper<List<Todo>>();
+    
     resp.setValue(todoService.getAll());
 
     return resp;
