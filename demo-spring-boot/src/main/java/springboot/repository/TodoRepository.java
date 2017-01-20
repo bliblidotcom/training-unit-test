@@ -7,5 +7,5 @@ import springboot.model.Todo;
  * Created by indra.e.prasetya on 1/18/2017.
  */
 //@Service
-public interface TodoRepository  extends JpaRepository<Todo, Long> {
+public interface TodoRepository  extends JpaRepository<Todo, Long>, TodoRepositoryCustom {
 }
