@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,6 +47,7 @@ public class TodoServiceTest {
 	@After
 	public void tearDown(){
 		LOG.debug("tearDown...");
+		Mockito.verifyNoMoreInteractions(this.todoRepository);
 		
 	}
 	
@@ -63,8 +65,17 @@ public class TodoServiceTest {
 		//when
 		List<Todo> testResult = this.todoService.getAll();
 		//then
+		//assert
 		Assert.assertThat(testResult, Matchers.equalTo(todoList));
+		//untuk ngecek assert sama gunakan : assertThat(.... ==, matchers ...)
+		
+		//verify
+		//todo repo harus 1 kali dipanggil , gaboleh lebih  
+		BDDMockito.then(this.todoRepository).should(BDDMockito.times(1)).getAll();
+		
 		this.todoService.getAll();
+		
+		
 		
 	}
 	

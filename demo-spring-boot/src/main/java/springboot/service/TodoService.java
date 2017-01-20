@@ -8,6 +8,7 @@ import springboot.model.Todo;
 import springboot.model.constants.TodoPriority;
 import springboot.repository.TodoRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,6 +33,13 @@ public class TodoService {
 	  LOG.debug("getAll...");
 	  List<Todo> result = todoRepository.getAll();
 	  LOG.debug("result :{}",result);
+	  //todoRepository.store(todo);
+	  //todo yang terpanggil 2 kali, bikin error
+	  //wanted but not invoked
+//	  List<Todo> todoList = new ArrayList<Todo>();
+//		todoList.add(new Todo("one",TodoPriority.HIGH));
+//		todoList.add(new Todo("two",TodoPriority.MEDIUM));
+//		todoList.add(new Todo("three",TodoPriority.LOW));
 	  return result;
   }
 }
