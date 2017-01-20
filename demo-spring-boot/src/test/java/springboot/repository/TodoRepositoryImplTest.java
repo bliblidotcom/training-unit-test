@@ -80,9 +80,11 @@ public class TodoRepositoryImplTest {
 
         // When
         boolean result = this.todoRepository.store(newTodo);
+        List<Todo> todoList = this.todoRepository.getAll();
 
         // Then
         Assert.assertThat(result , Matchers.equalTo(true));
+        Assert.assertThat(todoList.get(0) , Matchers.equalTo(newTodo));
 
         // Verify
     }
