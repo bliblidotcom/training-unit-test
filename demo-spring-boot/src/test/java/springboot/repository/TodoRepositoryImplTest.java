@@ -82,9 +82,10 @@ public class TodoRepositoryImplTest{
         Assert.assertThat(success, Matchers.equalTo(check));
         List <Todo>todoGetList = this.entityManager
                 .createNativeQuery("SELECT id, name, priority from todo where name ='"+newTodo.getName()+"' and priority = '"+newTodo.getPriority().ordinal()+"'", Todo.class).getResultList();
-//        Todo todoGet = (Todo) this.entityManager
-//                .createNativeQuery("SELECT id, name, priority from todo where name ='"+newTodo.getName()+"' and priority = '"+newTodo.getPriority()+"'", Todo.class).getSingleResult();
+        Todo todoGet = (Todo) this.entityManager
+                .createNativeQuery("SELECT id, name, priority from todo where name ='"+newTodo.getName()+"' and priority = '"+newTodo.getPriority().ordinal()+"'", Todo.class).getSingleResult();
         Assert.assertThat(todoGetList.get(0), Matchers.equalTo(newTodo));
+        Assert.assertThat(todoGet, Matchers.equalTo(newTodo));
 
     }
 
