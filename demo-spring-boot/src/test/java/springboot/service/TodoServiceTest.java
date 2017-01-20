@@ -5,7 +5,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.*;
-
+import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import springboot.model.Todo;
@@ -14,6 +15,7 @@ import springboot.repository.TodoRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class TodoServiceTest {
 
@@ -50,8 +52,9 @@ public class TodoServiceTest {
         List<Todo> result = todoService.getAll();
 
         // Then
-        Assert.assertEquals(todoList, result);
-
+//        Assert.assertEquals(todoList, result);
+        Assert.assertThat(result,Matchers.equalTo(todoList));
+        Assert.assertThat(result==todoList,Matchers.equalTo(true));
         // Verify
         Mockito.verify(this.todoRepository, Mockito.times(1))
                 .getAll();
@@ -60,18 +63,20 @@ public class TodoServiceTest {
     @Test
     public void saveTodoTest() {
         // Given
-        Todo newTodo = new Todo("Test insert new todo item.", TodoPriority.LOW);
-        BDDMockito.given(this.todoRepository.store(newTodo)).willReturn(true);
+//        Todo newTodo = new Todo("Test insert new todo item.", TodoPriority.LOW);
+        Todo todo = new Todo("test",TodoPriority.LOW);
+         BDDMockito.given(todoRepository.store(todo))
+                 .willReturn(true);
 
         // When
-        boolean success = todoService.saveTodo(newTodo.getName(), newTodo.getPriority());
+        boolean success = todoService.saveTodo("test", TodoPriority.LOW);
 
         // Then
-        Assert.assertTrue(success);
-
+//        Assert.assertTrue(success);        
+        Assert.assertThat(success,Matchers.equalTo(true));
         // Verify
         Mockito.verify(this.todoRepository, Mockito.times(1))
-                .store(newTodo);
+                .store(todo);
     }
 
 }
