@@ -57,7 +57,7 @@ public class TodoControllerTest {
         verify(todoService).getAll();
     }
 
-    private Gson gson;
+    private Gson gson ;
 
     @Test
     public void insert() {
