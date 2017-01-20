@@ -1,5 +1,9 @@
 package springboot.controller;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jayway.restassured.http.ContentType;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,8 +14,10 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import springboot.model.Todo;
 import springboot.model.constants.TodoPriority;
+import springboot.model.request.CreateTodoRequest;
 import springboot.service.TodoService;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 import static com.jayway.restassured.RestAssured.given;
@@ -48,10 +54,48 @@ public class TodoControllerTest {
       .get("/todos")
       .then()
       .body(containsString("value"))
-      .body(containsString(NAME))
+      .body(containsString(NAME)).body(containsString(PRIORITY.name()))
       .statusCode(200);
 
     verify(todoService).getAll();
+  }
+
+  @Test
+  public void insertTest(){
+    CreateTodoRequest todoRequest = new CreateTodoRequest();
+    todoRequest.setName(NAME);
+    todoRequest.setPriority(PRIORITY);
+
+    ObjectMapper mapper = new ObjectMapper();
+    String jsOnString = null;
+
+    try{
+
+      jsOnString = mapper.writeValueAsString(todoRequest);
+
+    }catch (JsonGenerationException e) {
+      e.printStackTrace();
+    } catch (JsonMappingException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+
+    when(todoService.saveTodo(todoRequest.getName(), todoRequest.getPriority())).thenReturn(true);
+
+
+    given()
+            .contentType(ContentType.JSON)
+            .body(jsOnString)
+            .when()
+            .port(serverPort)
+            .post("/todos")
+            .then()
+            .body(containsString("true"))
+            .statusCode(200);
+
+    verify(todoService).saveTodo(todoRequest.getName(), todoRequest.getPriority());
   }
 
   @After
