@@ -31,7 +31,7 @@ public class TodoControllerTest {
   private TodoService todoService;
 
   @LocalServerPort
-  private int portServer;
+  private int serverPort;
   
   private static final String NAME = "Todo1";
   private static final TodoPriority PRIORITY = TodoPriority.HIGH;
@@ -45,7 +45,7 @@ public class TodoControllerTest {
     given()
       .contentType("application/json")
       .when()
-      .port(portServer)
+      .port(serverPort)
       .get("/todos")
       .then()
       .body(containsString("value"))
@@ -64,7 +64,7 @@ public class TodoControllerTest {
 	  	.contentType("application/json")
 	  	.content(new CreateTodoRequest(NAME,PRIORITY))
 	  	.when()
-	  	.port(portServer)
+	  	.port(serverPort)
 	  	.post("/todos")
 	  	.then()
 	  	.body(containsString("value"))
