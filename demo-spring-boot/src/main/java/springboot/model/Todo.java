@@ -1,15 +1,33 @@
 package springboot.model;
 
 import springboot.model.constants.TodoPriority;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  * Created by indra.e.prasetya on 1/18/2017.
  */
-public class Todo {
 
+
+@Entity
+public class Todo {
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+  private Integer id;
   private String name;
   private TodoPriority priority;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+  
   public Todo(String name, TodoPriority priority) {
     this.name = name;
     this.priority = priority;
