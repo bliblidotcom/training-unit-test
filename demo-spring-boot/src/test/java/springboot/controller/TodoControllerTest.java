@@ -42,8 +42,8 @@ public class TodoControllerTest {
     when(todoService.getAll()).thenReturn(Arrays.asList(new Todo(NAME, PRIORITY)));
 
     given()
-      .port(serverPort)
       .contentType("application/json")
+      .port(serverPort)
       .when()
       .get("/todos")
       .then()
@@ -59,8 +59,8 @@ public class TodoControllerTest {
     when(todoService.saveTodo(NAME, PRIORITY)).thenReturn(true);
     
     given()
-      .port(serverPort)
       .contentType("application/json")
+      .port(serverPort)
       .when()
       .body(TODO)
       .post("/todos")
