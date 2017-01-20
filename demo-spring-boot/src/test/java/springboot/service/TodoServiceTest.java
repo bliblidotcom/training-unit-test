@@ -74,10 +74,10 @@ public class TodoServiceTest {
 
         //given
         Boolean cek = true;
-        BDDMockito.given(this.todoRepository.store(new Todo("one", TodoPriority.HIGH))).willReturn(cek);
+        BDDMockito.given(this.todoRepository.store(new Todo("one", TodoPriority.HIGH))).willReturn(cek);    //mock
 
         //when
-        Boolean cekResult = todoService.saveTodo("one", TodoPriority.HIGH);
+        Boolean cekResult = todoService.saveTodo("one", TodoPriority.HIGH);                                 //hasil keluaran
 
         //then
         //assert
