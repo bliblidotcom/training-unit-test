@@ -1,5 +1,7 @@
 package springboot.repository;
 
+import org.hamcrest.*;
+import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -21,6 +23,7 @@ import springboot.model.Todo;
 import springboot.model.constants.TodoPriority;
 import springboot.repository.TodoRepository;
 
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +38,9 @@ import java.util.List;
 public class TodoRepositoryImplTest {
 
     @Autowired
+    private EntityManager entityManager;
+
+    @Autowired
     private TodoRepository todoRepository;
 
     private static final Logger LOG = LoggerFactory.getLogger(TodoRepositoryImplTest.class);
@@ -43,29 +49,44 @@ public class TodoRepositoryImplTest {
     public void setUp() {
         LOG.debug("setup");
         MockitoAnnotations.initMocks(this);
+
     }
 
     @After
     public void tearDown() {
         LOG.debug("teardown");
-        // Verify
-//        BDDMockito.then(this.todoRepository).shouldHaveNoMoreInteractions();
+        entityManager.createNativeQuery("delete from todo").executeUpdate();
+
     }
 
     @Test
-    public void getAll() {
+    public void getAllTest() {
         List<Todo> todoListAwal = new ArrayList<Todo>();
 
+        //.save adalah method dari jpa
         todoListAwal.add( todoRepository.save(new Todo("lala", TodoPriority.HIGH)));
 
         //when
         List<Todo> todoList = todoRepository.getAll();
 
         // Then
-        Assert.assertEquals(todoList, todoListAwal);
+        Assert.assertThat(todoList, Matchers.equalTo(todoListAwal));
 
-        // Verify
-//        Mockito.verify(this.todoRepository, Mockito.times(1))
-//                .getAll();
+    }
+
+    @Test
+    public void storeTest() {
+        LOG.debug("save to Do");
+
+        Todo todo = new Todo("hahaha", TodoPriority.HIGH);
+
+        //.store adalah method custom
+        boolean sukses = todoRepository.store(todo);
+
+        Todo hasil =  todoRepository.getAll().get(0);
+
+        Assert.assertThat(todo, Matchers.equalTo(hasil));
+
+
     }
 }

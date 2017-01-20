@@ -10,6 +10,6 @@ import java.util.List;
 public interface TodoRepositoryCustom {
 
     //interface bila ingin custom repository
-//    public boolean store(Todo todo);
+    public boolean store(Todo todo);
     public List<Todo> getAll();
 }

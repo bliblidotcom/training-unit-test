@@ -20,11 +20,21 @@ public class TodoRepositoryImpl implements TodoRepositoryCustom{
     private EntityManager entityManager;
 
     //implementasi bila pake custome todoRepository
-//    @Override
-//    public boolean store(Todo todo) {
-//        return false;
-//    }
-//
+    @Override
+    public boolean store(Todo todo) {
+//        todo.setId();
+        Long id = todo.getId();
+        //this.entityManager.createNativeQuery("insert into todo(id, name, priority) values (" + todo.getId() + ", '" + todo.getName() + "', " + todo.getPriority().ordinal() + ")").executeUpdate();
+        try{
+            entityManager.persist(todo);
+            return true;
+
+        }catch (Exception e){
+            return false;
+        }
+
+    }
+
     @Override
     public List<Todo> getAll() {
         LOG.debug("getAll....");
