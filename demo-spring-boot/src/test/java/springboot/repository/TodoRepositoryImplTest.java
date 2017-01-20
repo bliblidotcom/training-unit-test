@@ -16,7 +16,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
-import springboot.configuration.Configuration;
+import springboot.Configuration;
 import springboot.model.Todo;
 import springboot.model.constants.TodoPriority;
 
