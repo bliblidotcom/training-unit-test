@@ -81,6 +81,7 @@ public class TodoControllerTest {
             .port(serverPort)
             .post("/todos")
             .then()
+            .body(containsString("value"))
             .body(containsString("true"))
             .statusCode(200);
 
