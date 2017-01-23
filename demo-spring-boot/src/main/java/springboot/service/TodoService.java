@@ -23,14 +23,15 @@ public class TodoService {
 
   public boolean saveTodo(String name, TodoPriority priority) {
     LOG.debug("saveTodo...");
-    Todo todo = new Todo(name, priority);
+    Todo todo = new Todo( name, priority);
 
-    return todoRepository.store(todo);
+    todoRepository.save(todo);
+    return true;
   }
 
   public List<Todo> getAll() {
     LOG.debug("getAll...");
-    List<Todo> result = todoRepository.getAll();
+    List<Todo> result = todoRepository.findAll();
     LOG.debug("result:{}", result);
     return result;
   }
