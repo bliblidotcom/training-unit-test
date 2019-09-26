@@ -57,6 +57,26 @@ public class TodoControllerTest {
     verify(todoService).getAll();
   }
 
+  @Test
+  public void TestController() {
+    Todo t=new Todo(NAME,PRIORITY);
+    when(todoService.saveTodo(t.getName(),t.getPriority())).thenReturn(true);
+
+    given()
+            .contentType("application/json")
+            .when().body(TODO)
+            .port(serverPort)
+            .post("/todos")
+            .then()
+            .body(containsString("value"))
+            .body(containsString("true"))
+            .statusCode(200);
+    verify(todoService).saveTodo(t.getName(),t.getPriority());
+
+
+  }
+
+
   @After
   public void tearDown() {
     verifyNoMoreInteractions(this.todoService);
