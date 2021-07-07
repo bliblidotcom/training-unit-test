@@ -1,5 +1,7 @@
 package springboot.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,6 +11,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import springboot.model.Todo;
 import springboot.model.constants.TodoPriority;
+import springboot.model.request.CreateTodoRequest;
 import springboot.service.TodoService;
 
 import java.util.Arrays;
@@ -26,6 +29,7 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class TodoControllerTest {
+  private Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
 
   @MockBean
   private TodoService todoService;
@@ -59,7 +63,32 @@ public class TodoControllerTest {
 
   @After
   public void tearDown() {
+    //tidak ada method lain yang dipanggil
     verifyNoMoreInteractions(this.todoService);
   }
 
+  @Test
+  public void insert(){
+
+    CreateTodoRequest todo = new CreateTodoRequest();
+    todo.setName("one");
+    todo.setPriority(TodoPriority.HIGH);
+
+    when(todoService.saveTodo(todo.getName(), todo.getPriority())).thenReturn(true);
+
+
+    given()
+            .contentType("application/json")
+            .body(gson.toJson(todo))
+            .when()
+            .port(serverPort)
+            .post("/todos")
+            .then()
+            .body(containsString("value"))
+            .body(containsString("true"))
+            .statusCode(200);
+
+    verify(todoService).saveTodo(todo.getName(), todo.getPriority());
+
+  }
 }
